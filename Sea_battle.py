@@ -2,7 +2,7 @@
 
 from random import randint
 
-class color:
+class Color:
     UNDERLINE = '\033[4m'
     PURPLE = '\033[95m'
     BOLD = '\033[1m'
@@ -132,17 +132,17 @@ class Board:
         for ship in self.ships:
             if ship.shooten(d):
                 ship.lives -= 1
-                self.field[d.x][d.y] = color.RED + "X" + color.END
+                self.field[d.x][d.y] = Color.RED + "X" + Color.END
                 if ship.lives == 0:
                     self.count += 1
                     self.contour(ship, verb=True)
-                    print(color.RED + "Корабль уничтожен!" + color.END)
+                    print(Color.RED + "Корабль уничтожен!" + Color.END)
                     return False
                 else:
-                    print(color.RED + "Корабль повреждён!" + color.END)
+                    print(Color.RED + "Корабль повреждён!" + Color.END)
                     return True
 
-        self.field[d.x][d.y] = color.RED + "✸" + color.END
+        self.field[d.x][d.y] = Color.RED + "✸" + Color.END
         print("Промах!")
         return False
 
@@ -174,23 +174,23 @@ class Player:
 class AI(Player):
     def ask(self):
         d = Dot(randint(0, 5), randint(0, 5))
-        print(color.YELLOW + f"Ход компьютера: {d.x + 1} {d.y + 1}" + color.END)
+        print(Color.YELLOW + f"Ход компьютера: {d.x + 1} {d.y + 1}" + Color.END)
         return d
 
 
 class User(Player):
     def ask(self):
         while True:
-            cords = input(color.PURPLE + "Ваш ход: " + color.END).split()
+            cords = input(Color.PURPLE + "Ваш ход: " + Color.END).split()
 
             if len(cords) != 2:
-                print(color.RED + "Введите 2 координаты! " + color.END)
+                print(Color.RED + "Введите 2 координаты! " + Color.END)
                 continue
 
             x, y = cords
 
             if not (x.isdigit()) or not (y.isdigit()):
-                print(color.RED + "Введите числа! " + color.END)
+                print(Color.RED + "Введите числа! " + Color.END)
                 continue
 
             x, y = int(x), int(y)
@@ -233,54 +233,54 @@ class Game:
         return board
 
     def greet(self):
-        print(color.PURPLE + "------------------------")
+        print(Color.PURPLE + "------------------------")
         print("    Приветствуем вас    ")
         print("         в игре         ")
         print("       морской бой      ")
-        print("------------------------" + color.END)
-        print(color.YELLOW + "    формат ввода: x y    ")
+        print("------------------------" + Color.END)
+        print(Color.YELLOW + "    формат ввода: x y    ")
         print("    x - номер строки    ")
-        print("    y - номер столбца   " + color.END)
+        print("    y - номер столбца   " + Color.END)
 
     def print_boards(self):
-        print(color.GREEN + "-" * 20)
-        print("Доска игрока:" + color.END)
+        print(Color.GREEN + "-" * 20)
+        print("Доска игрока:" + Color.END)
         print(self.us.board)
-        print(color.YELLOW + "-" * 20)
-        print("Доска компьютера:" + color.END)
+        print(Color.YELLOW + "-" * 20)
+        print("Доска компьютера:" + Color.END)
         print(self.ai.board)
-        print(color.RED + "-" * 20 + color.END)
+        print(Color.RED + "-" * 20 + Color.END)
 
     def loop(self):
         num = 0
         while True:
             self.print_boards()
-            print(color.GREEN + "-" * 20)
-            print("Доска игрока:" + color.END)
+            print(Color.GREEN + "-" * 20)
+            print("Доска игрока:" + Color.END)
             print(self.us.board)
-            print(color.YELLOW + "-" * 20)
-            print("Доска компьютера:" + color.END)
+            print(Color.YELLOW + "-" * 20)
+            print("Доска компьютера:" + Color.END)
             print(self.ai.board)
             print("-" * 20)
             if num % 2 == 0:
-                print(color.PURPLE + "✅ Ходит игрок!" + color.END)
+                print(Color.PURPLE + "✅ Ходит игрок!" + Color.END)
                 repeat = self.us.move()
             else:
-                print(color.YELLOW + "✅ Ходит компьютер!" + color.END)
+                print(Color.YELLOW + "✅ Ходит компьютер!" + Color.END)
                 repeat = self.ai.move()
             if repeat:
                 num -= 1
 
             if self.ai.board.defeat():
                 self.print_boards()
-                print(color.PURPLE + "-" * 20)
-                print("✸✸✸Игрок выиграл!✸✸✸" + color.END)
+                print(Color.PURPLE + "-" * 20)
+                print("✸✸✸Игрок выиграл!✸✸✸" + Color.END)
                 break
 
             if self.us.board.defeat():
                 self.print_boards()
-                print(color.YELLOW + "-" * 20)
-                print("✸✸✸Компьютер выиграл!✸✸✸" + color.END)
+                print(Color.YELLOW + "-" * 20)
+                print("✸✸✸Компьютер выиграл!✸✸✸" + Color.END)
                 break
             num += 1
 
