@@ -4,7 +4,7 @@
 
 TOKEN = "6638858330:AAGQ-0skaqInuPWtACoUvdSlol4zFxdXf-Y"
 
-# Список обрабатываемых валют
+# Список обрабатываемой валюты
 currency = {
     'Рубль': 'RUB',
     'Доллар': 'USD',
