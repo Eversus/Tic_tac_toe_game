@@ -1,0 +1,107 @@
+1. Создать двух пользователей (с помощью метода User.objects.create_user('username')):
+vanya = User.objects.create_user('Vanya')
+masha = User.objects.create_user('Masha')
+
+vanya = User.objects.get(id=1)
+masha = User.objects.get(id=2)
+
+
+2. Создать два объекта модели Author, связанные с пользователями:
+ivan = Author.objects.create(user = vanya)
+mariya = Author.objects.create(user = masha)
+
+ivan = Author.objects.get(id=1)
+mariya = Author.objects.get(id=2)
+
+
+3. Добавить 4 категории в модель Category:
+technologies = Category.objects.create(category = 'technologies')
+weather = Category.objects.create(category = 'weather')
+economic = Category.objects.create(category = 'economic')
+sport = Category.objects.create(category = 'sport')
+
+technologies = Category.objects.get(id=1)
+weather = Category.objects.get(id=2)
+economic = Category.objects.get(id=3)
+sport = Category.objects.get(id=4)
+
+
+4. Добавить 2 статьи и 1 новость:
+ar1 = Post.objects.create(author = ivan, post_type = 'AR', title = 'Рост цены биткоина на 30 процентов за две недели может быть обусловлен несколькими факторами, сообщил сотрудник департамента экономических и финансовых исследований CMS Institute', text = 'Рост цены биткоина на 30 процентов за две недели может быть обусловлен несколькими факторами, сообщил сотрудник департамента экономических и финансовых исследований CMS Institute')
+ar2 = Post.objects.create(author = mariya, post_type = 'AR', title = 'Вы знаете, что есть коты спортсмены? И самые настоящие соревнования для котов, где важны скорость и техника выполнения элементов. И нет, это не всем известные выставки котов, где проверяют внешний вид, воспитания и множество других характеристик.', text = 'Вы знаете, что есть коты спортсмены? И самые настоящие соревнования для котов, где важны скорость и техника выполнения элементов. И нет, это не всем известные выставки котов, где проверяют внешний вид, воспитания и множество других характеристик.')
+new = Post.objects.create(author = ivan, post_type = 'NW' , title = 'Европейский парламент может запретить Apple и другим компаниями заявлять об экологичности своих продуктов. Об этом сообщает Financial Times (FT).', text = 'Европейский парламент может запретить Apple и другим компаниями заявлять об экологичности своих продуктов. Об этом сообщает Financial Times (FT).')
+
+
+5. Присвоить им категории (как минимум в одной статье/новости должно быть не меньше 2 категорий):
+
+PostCategory.objects.create(post_id=1, category_id=3)
+PostCategory.objects.create(post_id=1, category_id=1)
+PostCategory.objects.create(post_id=2, category_id=4)
+PostCategory.objects.create(post_id=2, category_id=2)
+
+
+6. Создать как минимум 4 комментария к разным объектам модели Post (в каждом объекте должен быть как минимум один
+комментарий):
+
+com1 = Comment.objects.create(post = ar1, user = masha, text = 'Как интересно!')
+com2 = Comment.objects.create(post = ar1, user = masha, text = 'Но я так не думаю')
+com3 = Comment.objects.create(post = ar2, user = vanya, text = 'Хочу себе бегового Манула )')
+com4 = Comment.objects.create(post = new, user = masha, text = 'Доигрались')
+
+com1 = Comment.objects.get(id=1)
+com2 = Comment.objects.get(id=2)
+com3 = Comment.objects.get(id=3)
+com4 = Comment.objects.get(id=4)
+
+
+7. Применяя функции like() и dislike() к статьям/новостям и комментариям, скорректировать рейтинги этих объектов:
+com1.like()
+com2.like()
+com1.like()
+com2.like()
+com3.like()
+com4.like()
+com2.like()
+com2.like()
+com4.like()
+com3.like()
+com3.like()
+com4.like()
+
+com4.dislike()
+com1.dislike()
+com3.dislike()
+com1.dislike()
+com4.dislike()
+
+ar1.like()
+ar1.like()
+ar1.like()
+ar2.like()
+ar2.like()
+ar2.like()
+ar2.like()
+ar2.like()
+ar2.like()
+new.like()
+
+ar1.dislike()
+ar2.dislike()
+new.dislike()
+
+
+8. Обновить рейтинги пользователей:
+ivan.update_rating()
+mariya.update_rating()
+
+
+9. Вывести username и рейтинг лучшего пользователя (применяя сортировку и возвращая поля первого объекта):
+Author.objects.all().order_by('-rating').values('user', 'rating')[0]
+
+
+10. Вывести дату добавления, username автора, рейтинг, заголовок и превью лучшей статьи, основываясь на лайках/дислайках
+ к этой статье:
+Post.objects.all().order_by('-rating').values('time_in', 'author__user__username', 'rating', 'title', 'text')[0]
+
+11. Вывести все комментарии (дата, пользователь, рейтинг, текст) к этой статье:
+Comment.objects.all().order_by().values('time_in', 'user__username', 'rating', 'text')[0]
