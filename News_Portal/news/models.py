@@ -39,7 +39,7 @@ class Post(models.Model):
     post_type = models.CharField(max_length = 2, choices=TYPE, default=article)
     time_in = models.DateTimeField(auto_now_add = True)
     categories = models.ManyToManyField(Category, through = "PostCategory")
-    title = models.CharField(max_length = 255,)
+    title = models.CharField(max_length = 20)
     text = models.TextField(unique = True)
     rating = models.IntegerField(default = 0)
 
