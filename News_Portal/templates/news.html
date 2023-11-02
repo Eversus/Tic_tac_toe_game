@@ -9,5 +9,26 @@ News
 <!-- В контенте на странице мы выводим все новости -->
 {% block content %}
 <h1>Все новости</h1>
-{{ news }}
+<!--<h2>Текущая дата: {{ time_now|date:'d M Y' }}</h2>-->
+<h2>Количество новостей: {{ news|length }}</h2>
+<hr>
+   {% if news %}
+       <table class="table table-striped" style="vertical-align: middle;">
+           <tr>
+               <th style="width:15%;">Заголовок</th>
+               <th style="width:15%;">Дата публикации</th>
+               <th>Описание</th>
+           </tr>
+
+           {% for new in news %}
+           <tr>
+               <td>{{ new.title }}</td>
+               <td>{{ new.time_in|date:'d M Y' }}</td>
+               <td style="text-align:left;">{{ new.text|truncatewords:20 }}</td>
+           </tr>
+           {% endfor %}
+       </table>
+   {% else %}
+       <h2>Новостей нет!</h2>
+   {% endif %}
 {% endblock content %}
