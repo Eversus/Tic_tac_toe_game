@@ -1,6 +1,10 @@
 <!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
 {% extends 'flatpages/default.html' %}
 
+{% load custom_filters %}
+<!-- Подключаем новый файл с нашим тегом -->
+{% load custom_tags %}
+
 <!-- Название у нас будет News -->
 {% block title %}
 News
@@ -10,6 +14,7 @@ News
 {% block content %}
 <h1>Все новости</h1>
 <!--<h2>Текущая дата: {{ time_now|date:'d M Y' }}</h2>-->
+<h2>Текущая дата: {% current_time '%d %b %Y' %}</h2>
 <h2>Количество новостей: {{ news|length }}</h2>
 <hr>
    {% if news %}
@@ -22,9 +27,9 @@ News
 
            {% for new in news %}
            <tr>
-               <td>{{ new.title }}</td>
+               <td>{{ new.title | censor }}</td>
                <td>{{ new.time_in|date:'d M Y' }}</td>
-               <td style="text-align:left;">{{ new.text|truncatewords:20 }}</td>
+               <td style="text-align:left;">{{ new.text | truncatewords:20 | censor }}</td>
            </tr>
            {% endfor %}
        </table>
