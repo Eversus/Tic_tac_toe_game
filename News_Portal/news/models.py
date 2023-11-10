@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.db import models
-
+# from django.urls import reverse
+from django.core.cache import cache
 
 # Модель, содержащая объекты всех авторов
 class Author(models.Model):
@@ -39,7 +40,7 @@ class Post(models.Model):
     post_type = models.CharField(max_length = 2, choices=TYPE, default=article)
     time_in = models.DateTimeField(auto_now_add = True)
     categories = models.ManyToManyField(Category, through = "PostCategory")
-    title = models.CharField(max_length = 20)
+    title = models.CharField(max_length = 120)
     text = models.TextField(unique = True)
     rating = models.IntegerField(default = 0)
 
@@ -56,6 +57,12 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title.title()
+
+    # def get_absolute_url(self):
+    #     return reverse('news_detail', args=[str(self.id)])
+
+    def get_absolute_url(self):
+        return f'/all-posts/{self.id}'
 
 
 # Промежуточная модель для связи «многие ко многим» для связи с моделями Post и Category

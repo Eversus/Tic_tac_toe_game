@@ -1,0 +1,16 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+{% if post.post_type == 'AR' %}
+<h1>Добавление или изменение статьи</h1>
+{% else %}
+<h1>Добавление или изменение новости</h1>
+{% endif %}
+
+<hr>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save" />
+</form>
+{% endblock content %}

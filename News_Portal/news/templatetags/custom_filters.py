@@ -1,5 +1,3 @@
-from pprint import pprint
-
 from django import template
 
 register = template.Library()
@@ -12,7 +10,6 @@ censor_list = ['редиска', 'поограмист', 'васисуалий']
 @register.filter(name = "censor")
 
 def currency(value):
-   bad_words = ['редиска', 'поограмист', 'васисуалий']
-   for word in bad_words:
+   for word in censor_list:
       value = value.replace(word, '*' * len(word))
    return value
