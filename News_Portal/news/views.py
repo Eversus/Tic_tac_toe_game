@@ -1,10 +1,10 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
 from .filters import NewsFilter
 from datetime import datetime
 from .forms import NewsForm
 from .models import Post
-
 
 
 class NewsList(ListView):
@@ -57,14 +57,16 @@ class NewsDetail(DetailView):
 
 
 # Добавляем новое представление для создания новостей.
-class NewsCreate(CreateView):
+class NewsCreate(PermissionRequiredMixin, CreateView):
+    # Добавляем права на создание новости или статьи
+    permission_required = ('news.add_post',)
     # Указываем нашу разработанную форму
     form_class = NewsForm
     # модель товаров
     model = Post
     # и новый шаблон, в котором используется форма.
     template_name = 'news_edit.html'
-    # success_url = reverse_lazy('news_list')
+    success_url = reverse_lazy('news_list')
 
     def form_valid(self, form):
         post = form.save(commit=False)
@@ -75,8 +77,9 @@ class NewsCreate(CreateView):
         return super().form_valid(form)
 
 
-# Добавляем представление для изменения новость.
-class NewsUpdate(UpdateView):
+# Добавляем представление для изменения новости.
+class NewsUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    permission_required = ('news.change_post',)
     form_class = NewsForm
     model = Post
     template_name = 'news_edit.html'

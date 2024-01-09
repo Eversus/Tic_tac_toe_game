@@ -1,5 +1,4 @@
 from django.forms import ModelForm, CharField
-
 from .models import Post
 
 

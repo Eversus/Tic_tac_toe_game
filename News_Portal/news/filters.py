@@ -1,8 +1,8 @@
-from django_filters import FilterSet, CharFilter, ModelChoiceFilter,  DateFilter
+from django_filters import FilterSet, CharFilter, ModelChoiceFilter, DateFilter
 from .models import Post, Author
 from django import forms
 
-# Создаем свой набор фильтров для модели Product.
+# Создаем свой набор фильтров для модели Post.
 class NewsFilter(FilterSet):
     name = CharFilter(field_name='title',
                       label="Название",
