@@ -33,6 +33,7 @@ News
            <tr>
                <th style="width:15%;">Заголовок</th>
                <th style="width:15%;">Дата публикации</th>
+               <th style="width:15%;">Категория</th>
                <th>Описание</th>
            </tr>
 
@@ -40,6 +41,7 @@ News
            <tr>
                <td>{{ new.title | censor }}</td>
                <td>{{ new.time_in|date:'d M Y' }}</td>
+               <td>{{ new.categories.name }}</td>
                <td style="text-align:left;">{{ new.text | truncatewords:20 | censor }}</td>
            </tr>
            {% endfor %}
