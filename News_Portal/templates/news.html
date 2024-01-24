@@ -39,9 +39,14 @@ News
 
            {% for new in news %}
            <tr>
-               <td>{{ new.title | censor }}</td>
+               <td>
+                   <a href="{% url 'news_detail' new.id %}">{{ new.title | censor }}</a>
+               </td>
                <td>{{ new.time_in|date:'d M Y' }}</td>
-               <td>{{ new.categories.name }}</td>
+               <td>{% for category in new.categories.all %}
+                   <a href="{% url 'category_list' category.id %}"> {{ category.category }}</a>
+                   {% endfor %}
+               </td>
                <td style="text-align:left;">{{ new.text | truncatewords:20 | censor }}</td>
            </tr>
            {% endfor %}

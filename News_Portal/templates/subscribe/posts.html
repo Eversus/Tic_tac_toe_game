@@ -1,0 +1,24 @@
+{% if news %}
+{% for new in news %}
+
+<h3>
+    <a href="{% url 'news/{{ news.pk }}' post.id %}">
+        {{ new.title }}
+    </a>
+</h3>
+<p class="details">
+    By <span class="author">{{new.author}}</span>
+    on <span class="date">{{new.time_create}}</span>
+Category:
+{% for c in new.category.values %}
+<a href="{% url 'news:category' c.id %}" class="category">{{c.name}}</a>
+{% endfor %}
+</p>
+<p>
+    {{ new.content }}
+</p>
+{% endfor %}
+
+{% else %}
+    <h2>Постов нет</h2>
+{% endif %}

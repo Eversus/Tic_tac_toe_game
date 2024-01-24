@@ -24,6 +24,17 @@ class Author(models.Model):
 # Модель, содержащая категории новостей/статей
 class Category(models.Model):
     category = models.CharField(max_length = 255, unique = True)
+    subscribers = models.ManyToManyField(User, related_name='categories', blank=True)
+
+    def subscribe(self):
+        ...
+
+    def get_category(self):
+        return self.name
+
+
+    def __str__(self):
+        return self.category.title()
 
 # Данная модель содержит статьи и новости
 class Post(models.Model):

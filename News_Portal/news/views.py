@@ -1,10 +1,12 @@
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, resolve
 from .filters import NewsFilter
 from datetime import datetime
 from .forms import NewsForm
-from .models import Post
+from .models import Post, Category
 
 
 class NewsList(ListView):
@@ -90,3 +92,63 @@ class ProductDelete(DeleteView):
     model = Post
     template_name = 'news_delete.html'
     success_url = reverse_lazy('news_list')
+
+class PostCategoryView(ListView):
+    model = Post
+    template_name = 'subscribe/category.html'
+    context_object_name = 'posts'
+    ordering = '-time_in'
+    paginate_by = 10
+
+    def get_queryset(self):
+        self.id = resolve(self.request.path_info).kwargs['pk']
+        c = Category.objects.get(id=self.id)
+        queryset = Post.objects.filter(category=c)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        category = Category.objects.get(id=self.id)
+        subscribed = category.subscribers.filter(email=user.email)
+        if not subscribed:
+            context['category'] = category
+        return context
+
+@login_required
+def subscribe(request, pk):
+    user = request.user
+    category = Category.objects.get(id=pk)
+    category.subscribers.add(user)
+
+    message = 'Вы успешно подписались на рассылку новостей категории'
+    return render(request, 'subscribe/subscribed.html', {'category': category, 'message': message})
+
+
+@login_required
+def unsubscribe(request, pk):
+    user = request.user
+    category = Category.objects.get(id=pk)
+
+    if category.subscribers.filter(id=user.id).exists():
+        category.subscribers.remove(user)
+    return redirect('/')
+
+
+
+class CategoryListView(ListView):
+    model = Post
+    template_name = 'subscribe/category_list.html'
+    context_object_name = 'category_news_list'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # context['is not subscriber'] = not self.category.subscribers.filter(id=self.request.user.id).exists()
+        context['is_not_subscriber'] = self.request.user not in self.categories.subscribers.all()
+        context['category'] = self.categories
+        return context
+
+    def get_queryset(self):
+        self.categories =get_object_or_404(Category, id=self.kwargs['pk'])
+        queryset = Post.objects.filter(categories=self.categories).order_by('-time_in')
+        return queryset
