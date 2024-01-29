@@ -6,7 +6,7 @@ News List
 <button> <a href="http://127.0.0.1:8000/all-posts"> Все новости</a> </button>
 <h1 class="text-center">Новости - Bceгo: {{ category_news_list|length }}</h1>
 {% if is_not_subscriber %}
-<p class="text-center"><a href="{% url 'subscribe' category.id %}" class="btn btn-secondary btn-sm"> Подписаться</a> </p>
+<p class="text-center"><a href="{% url 'subscribe' category.id %}" class="btn btn-secondary btn-sm"> Подписаться на категорию</a> </p>
 {% endif %}
 <hr>
 
