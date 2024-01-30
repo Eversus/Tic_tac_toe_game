@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'django_apscheduler',
 ]
 
 MIDDLEWARE = [
@@ -167,3 +168,9 @@ ADMINS = [
     ('admin', 'testjang@yandex.ru'),
     # список всех админов в формате ('имя', 'почта')
 ]
+
+# формат даты, которую будет воспринимать наш задачник
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+
+# если задача не выполняется за 25 секунд, то она автоматически снимается, можете поставить время побольше, но как правило, это сильно бьёт по производительности сервера
+APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
