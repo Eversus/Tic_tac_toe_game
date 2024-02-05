@@ -9,11 +9,12 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 app.autodiscover_tasks()
 
-
 app.conf.beat_schedule = {
     'action_every_monday_8am': {
         'task': 'news.tasks.weekly_send_email_task',
-        'schedule': crontab(hour=18, minute=6, day_of_week='monday'),
+        'schedule': crontab(hour=21, minute=7, day_of_week='monday'),
         'args': ()
     },
 }
+
+app.conf.timezone = 'UTC'

@@ -7,7 +7,7 @@ from .filters import NewsFilter
 from datetime import datetime
 from .forms import NewsForm
 from .models import Post, Category
-
+from .tasks import send_email_task
 
 class NewsList(ListView):
     # Указываем модель, объекты которой мы будем выводить
@@ -76,6 +76,7 @@ class NewsCreate(PermissionRequiredMixin, CreateView):
             post.post_type = 'NW'
         print(self.request.path)
         post.save()
+        send_email_task.delay(post.pk)
         return super().form_valid(form)
 
 
