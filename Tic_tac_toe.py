@@ -22,6 +22,7 @@ def check_winner(board):
     else:
         return False
 
+
 # Проверяем есть ли свободные поля, если все поля запонены, обьявляем ничью
 def check_draw(board):
     for key in board:
@@ -31,8 +32,9 @@ def check_draw(board):
 
 # Задаём координаты для дальнейшей игры
 the_board = {'00': ' ', '01': ' ', '02': ' ',
-            '10': ' ', '11': ' ', '12': ' ',
-            '20': ' ', '21': ' ', '22': ' '}
+             '10': ' ', '11': ' ', '12': ' ',
+             '20': ' ', '21': ' ', '22': ' '}
+
 
 # Рисуем доску
 def print_board(board):
@@ -43,12 +45,19 @@ def print_board(board):
     print('  -+-+-')
     print('2 ' + board['20'] + '|' + board['21'] + '|' + board['22'])
 
+
 # Начинаем игру
 turn = 'X'
 for i in range(9):
     print_board(the_board)
     print('Ходят ' + turn + '. Куда ходите?')
     move = input()
+
+    # Проверка на корректность ввода координат и наличие свободной клетки
+    while move not in the_board or the_board[move] != ' ':
+        print('Некорректный ход. Попробуйте снова.')
+        move = input()
+
     the_board[move] = turn
 
     # Проверяем есть ли победитель
