@@ -8,6 +8,7 @@ from datetime import datetime
 from .forms import NewsForm
 from .models import Post, Category
 from .tasks import send_email_task
+from django.core.cache import cache
 
 class NewsList(ListView):
     # Указываем модель, объекты которой мы будем выводить
@@ -56,6 +57,13 @@ class NewsDetail(DetailView):
     template_name = 'new.html'
     # Название объекта, в котором будет храниться выбранная пользователем новость
     context_object_name = 'new'
+
+    '''def get_object(self, *args, **kwargs):
+        obj = cache.get(f'new-{self.kwargs["pk"]}', None)
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'new-{self.kwargs["pk"]}', obj)
+        return obj'''
 
 
 # Добавляем новое представление для создания новостей.

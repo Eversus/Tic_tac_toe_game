@@ -3,7 +3,7 @@ from django import template
 register = template.Library()
 
 
-censor_list = ['редиска', 'поограмист', 'жалкий червь']
+censor_list = ['червяк', 'косипоша', 'жалкий']
 
 # Регистрируем наш фильтр под именем currency, чтобы Django понимал,
 # что это именно фильтр для шаблонов, а не простая функция.

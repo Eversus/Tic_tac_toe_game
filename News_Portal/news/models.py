@@ -75,6 +75,10 @@ class Post(models.Model):
     def get_absolute_url(self):
         return f'/all-posts/{self.id}'
 
+    '''def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)  # сначала вызываем метод родителя, чтобы объект сохранился
+        cache.delete(f'new-{self.pk}')  # затем удаляем его из кэша, чтобы сбросить его'''
+
 
 # Промежуточная модель для связи «многие ко многим» для связи с моделями Post и Category
 class PostCategory(models.Model):
