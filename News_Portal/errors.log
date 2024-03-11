@@ -1,0 +1,8 @@
+ERROR 2024-03-11 11:01:30,443  Internal Server Error: /all-posts/ C:\Users\cynro\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\django\utils\log.py, (<class 'TypeError'>, TypeError('View.as_view() takes 1 positional argument but 2 were given'), <traceback object at 0x0000018192132340>)
+Traceback (most recent call last):
+  File "C:\Users\cynro\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\cynro\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+TypeError: View.as_view() takes 1 positional argument but 2 were given
+ERROR 2024-03-11 11:01:30,444  "GET /all-posts/ HTTP/1.1" 500 77536 C:\Users\cynro\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\django\core\servers\basehttp.py, None

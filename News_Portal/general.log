@@ -1,0 +1,4 @@
+INFO 2024-03-11 11:00:28,690 autoreload  Watching for file changes with StatReloader
+INFO 2024-03-11 11:03:12,999 autoreload  C:\Users\cynro\PycharmProjects\NewsPortal\NewsPaper\news\urls.py changed, reloading.
+INFO 2024-03-11 11:03:13,783 autoreload  Watching for file changes with StatReloader
+INFO 2024-03-11 11:05:31,922 autoreload  Watching for file changes with StatReloader
