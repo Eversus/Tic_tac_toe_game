@@ -1,0 +1,34 @@
+{% extends 'layout/basic.html' %}
+
+{% load thumbnail %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+{% if ads %}
+<h2>Последние объявления</h2>
+<div class="vstack gap-3 mt-4 mb-4">
+    {% for ad in ads %}
+    <div class="card">
+        {% url 'board:ad_detail' category_pk=ad.category.pk pk=ad.pk as url %}
+        <div class="row p-3">
+            <a class="col-md-2" href="{{ url }}{{ all }}">
+                {% if ad.image %}
+                <img class="img-fluid" src="{% thumbnail ad.image 'default' %}">
+                {% else %}
+                <img class="img-fluid" src="{% static 'main/none-img.jpg' %}">
+                {% endif %}
+            </a>
+            <div class="col-md-10 card-body">
+                <h3 class="card-title"><a href="{{ url }}{{ all }}">{{ ad.title }}</a></h3>
+                <div class="card-text mb-2">{{ ad.content }}</div>
+                <p class="card-text text-end fst-italic">{{ ad.created_at }}</p>
+                <p class="card-text text-end fst-italic">С уважением, {{ ad.category }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% bootstrap_pagination page url=keyword %}
+{% endif %}
+{% endblock %}

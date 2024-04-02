@@ -1,0 +1,72 @@
+{% load django_bootstrap5 %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}Главная{% endblock %} :: Доска объявлений</title>
+        {% bootstrap_css %}
+        <link rel="icon" type="image/x-icon" href="{% static 'main/favicon.ico' %}" />
+        <link rel="stylesheet" type="text/css"
+              href="{% static 'main/style.css' %}">
+        {% bootstrap_javascript %}
+    </head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'board:index' %}">MMORPG</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <a class="navbar-brand" href="{% url 'board:index' %}">Главная</a>
+                <div class="navbar-nav">
+                    {% if user.is_authenticated %}
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           data-bs-toggle="dropdown" href="#">Профиль</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'board:profile' %}">Мои объявления</a>
+                            <a class="dropdown-item" href="{% url 'board:profile_edit' %}">Изменить личные данные</a>
+                            <a class="dropdown-item" href="{% url 'board:password_edit' %}">Изменить пароль</a>
+                            <hr class="dropdown-divider">
+                            <form class="px-3" method="post"
+                                  action="{% url 'board:logout' %}">
+                                {% csrf_token %}
+                                {% bootstrap_button 'Выйти' button_class='btn-danger' %}
+                            </form>
+                            <hr class="dropdown-divider">
+                            <a class="dropdown-item" href="{% url 'board:profile_delete' %}">Удалить</a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <a class="nav-link" href="{% url 'board:register' %}">Регистрация</a>
+                    <a class="nav-link" href="{% url 'board:login' %}">Вход</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+    <br>
+    <h1 class="text-center">Добро пожаловать на доску объявлений сообщества MMORPG!</h1>
+    <hr><br>
+        <div class="row">
+            <nav class="col-md-auto nav flex-column bg-light">
+            <h3><a class="navbar-brand" href="{% url 'board:index' %}">Главная</a></h3>
+                {% for category in categories %}
+                <a class="nav-link" href="{% url 'board:category_ads' pk=category.pk %}">{{ category.name }}</a>
+                {% endfor %}
+                <a class="nav-link root" href="{% url 'board:other' page='about' %}">О сайте</a>
+            </nav>
+            <main class="col py-2">
+                {% bootstrap_messages %}
+                {% block content %}
+                {% endblock %}
+            </main>
+        </div>
+    </div>
+</body>
+</html>
